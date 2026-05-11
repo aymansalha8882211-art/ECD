@@ -341,8 +341,15 @@ function showData(user, headers, rows) {
   for (var r = 0; r < rows.length; r++) {
     body += "<tr><td style='color:#aaa;font-size:11px'>" + (r+1) + "</td>";
     for (var c = 0; c < SHOW_COLS.length; c++) {
-      var idx = headers.indexOf(SHOW_COLS[c]);
-      var val = (idx >= 0 && rows[r][idx]) ? rows[r][idx] : "-";
+      var idx;
+
+if (SHOW_COLS[c] === "respondent_name") {
+  idx = columnToIndex("VJ");
+} else {
+  idx = headers.indexOf(SHOW_COLS[c]);
+}
+
+var val = (idx >= 0 && rows[r][idx]) ? rows[r][idx] : "-";
       body += "<td>" + val + "</td>";
     }
     body += "</tr>";
@@ -388,6 +395,13 @@ function parseCSV(text) {
 document.addEventListener("keydown", function(e) {
   if (e.key === "Enter") doLogin();
 });
+  function columnToIndex(col) {
+  var num = 0;
+  for (var i = 0; i < col.length; i++) {
+    num = num * 26 + col.charCodeAt(i) - 64;
+  }
+  return num - 1;
+}
 </script>
 </body>
 </html>
