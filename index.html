@@ -252,7 +252,7 @@ var LABELS = {
   "age_months_basic": "العمر (أشهر)",
   "place":            "المكان",
   "age_group":        "الفئة العمرية",
-  "respondent_name": "اسم ولي الأمر",
+  "respondent_name": "اسم مقدم الرعاية",
   "phone_number":     "رقم الهاتف"
 };
 
@@ -344,7 +344,11 @@ function showData(user, headers, rows) {
       var idx;
 
 if (SHOW_COLS[c] === "respondent_name") {
-  idx = columnToIndex("VJ");
+  idx = headers.indexOf("respondent_name");
+
+  if (idx === -1) {
+    idx = columnToIndex("VJ");
+  }
 } else {
   idx = headers.indexOf(SHOW_COLS[c]);
 }
@@ -396,10 +400,13 @@ document.addEventListener("keydown", function(e) {
   if (e.key === "Enter") doLogin();
 });
   function columnToIndex(col) {
+  col = col.toUpperCase().trim();
   var num = 0;
+
   for (var i = 0; i < col.length; i++) {
-    num = num * 26 + col.charCodeAt(i) - 64;
+    num = num * 26 + (col.charCodeAt(i) - 64);
   }
+
   return num - 1;
 }
 </script>
